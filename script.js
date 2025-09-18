@@ -1,9 +1,26 @@
 let rock = document.getElementById("rock");
 let paper = document.getElementById("paper");
 let scissors = document.getElementById("scissors");
+const Game = document.getElementById("rps");
+let humanChoiceElement = document.createElement("span");
+let computerChoiceElement = document.createElement("span");
+const score = document.getElementById("score");
+let humanScoreElement = document.createElement("p");
+let computerScoreElement = document.createElement("p");
+let finalMessageElement = document.createElement("p");
 
+let humanScore = 0;
+let computerScore = 0;
+let computerChoice;
+let humanChoice;
 
-function getComputerChoice() {
+const emojiMap = {
+  rock: "🪨",
+  paper: "🗒️",
+  scissors: "✂️"
+};
+
+  function getComputerChoice() {
   let computerChoice = Math.floor(Math.random() * 3);
 
   switch (computerChoice) {
@@ -19,104 +36,117 @@ function getComputerChoice() {
     default:
       break;
   }
-}
+};
+
+function playRound(human, computer) {
+  if (human == "rock" && computer == "paper") computerScore++;
+  if (human == "paper" && computer == "rock") humanScore++;
+  if (human == "paper" && computer == "scissors") computerScore++;
+  if (human == "scissors" && computer == "paper") humanScore++;
+  if (human == "rock" && computer == "scissors") humanScore++;
+  if (human == "scissors" && computer == "rock") computerScore++;
+  humanScoreElement.textContent = `Human Score: ${humanScore}`;
+  computerScoreElement.textContent = `Computer Score: ${computerScore}`;
+  score.appendChild(humanScoreElement);
+  score.appendChild(computerScoreElement);
+  // Chequear ganador
+  if (humanScore >= 5 || computerScore >= 5) {
+    score.removeChild(humanScoreElement);
+    score.removeChild(computerScoreElement);
+    
+
+    console.clear();
 
 
+    console.log("Final Scores:");
+    console.log("Computer:", computerScore);
+    console.log("Human:", humanScore);
 
-function getHumanChoice() {
-  let humanChoice = prompt("Rock, Paper or Scissors?");
+    if (humanScore > computerScore) {
+      finalMessageElement.textContent = "Human Wins!";
+    } else if (computerScore > humanScore) {
+      finalMessageElement.textContent = "Computer Wins!";
+    } else {
+      finalMessageElement.textContent = "It's a Tie!";
+    }
+    score.appendChild(finalMessageElement);
+    // Desactivar botones
+    rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
 
-  switch (humanChoice) {
-    case "rock":
-      return humanChoice;
-    case "paper":
-      return humanChoice;
-    case "scissors":
-      return humanChoice;
-    default:
-      let wrongChoice = getHumanChoice();
-      return wrongChoice;
+    return true; // 👈 avisamos que el juego terminó
   }
 
-  
-
+  return false; // 👈 todavía sigue
 }
 
 
-
-let humanScore = 0;
-let computerScore = 0;
-let computerChoice = ''
-
-rock.addEventListener("click", function() {
+function playGame() {
+  rock.addEventListener("click", function() {
+  console.clear();
   computerChoice = getComputerChoice();
-  playRound("rock");
-});
-paper.addEventListener("click", function() {
-    computerChoice = getComputerChoice();
-
-  playRound("paper");
-})
-scissors.addEventListener("click", function() {
-    computerChoice = getComputerChoice();
-
-  playRound("scissors"); 
-})
-
-
-  function playRound(human, computer) {
-    if (human == "rock" && computer == "paper") {
-      computerScore++;
-    }
-    if (human == "paper" && computer == "rock") {
-      humanScore++;
-    }
-    if (human == "paper" && computer == "scissors") {
-      computerScore++;
-    }
-    if (human == "scissors" && computer == "paper") {
-      humanScore++;
-    }
-    if (human == "rock" && computer == "scissors") {
-      humanScore++;
-    }
-    if (human == "scissors" && computer == "rock") {
-      computerScore++;
-    }
+  humanChoice = "rock";
+  let ended = playRound(humanChoice, computerChoice);
+  humanChoiceElement.textContent = `${emojiMap[humanChoice]}`;
+  computerChoiceElement.textContent = `${emojiMap[computerChoice]}`;
+  Game.appendChild(humanChoiceElement);
+  Game.appendChild(computerChoiceElement);
   
 
-  // for (let i = 0; i < 5; i++) {
-  //   let computerChoice = getComputerChoice();
-  //   let humanChoice = getHumanChoice();
-  //   console.log("Round number:", i + 1);
 
-  //   playRound(humanChoice, computerChoice);
+  if (!ended) { // 👈 solo loguea si la partida sigue
+    console.log("Human choice:", humanChoice);
+    console.log("Computer choice:", computerChoice);
+    console.log("Human score:", humanScore);
+    console.log("Computer score:", computerScore);
+  }
+});
 
-  //   console.log("Human score: ", humanScore);
-  //   console.log("Computer score: ", computerScore);
-  //   if (humanScore > computerScore) {
-  //     console.log("Human wins the round!");
-  //   } else if (computerScore > humanScore) {
-  //     console.log("Computer wins the round!");
-  //   } else {
-  //     console.log("It's a Tie!");
-  //   }
-  // }
+  paper.addEventListener("click", function() {
+  console.clear();
+  computerChoice = getComputerChoice();
+  humanChoice = "paper";
+  let ended = playRound(humanChoice, computerChoice);
+  humanChoiceElement.textContent = `${emojiMap[humanChoice]}`;
+  computerChoiceElement.textContent = `${emojiMap[computerChoice]}`;
+  Game.appendChild(humanChoiceElement);
+  Game.appendChild(computerChoiceElement);
+
+  if (!ended) { // 👈 solo loguea si la partida sigue
+    console.log("Human choice:", humanChoice);
+    console.log("Computer choice:", computerChoice);
+    console.log("Human score:", humanScore);
+    console.log("Computer score:", computerScore);
+  }
+});
+
+  
+  scissors.addEventListener("click", function() {
+  console.clear();
+  computerChoice = getComputerChoice();
+  humanChoice = "scissors";
+  let ended = playRound(humanChoice, computerChoice);
+  humanChoiceElement.textContent = `${emojiMap[humanChoice]}`;
+  computerChoiceElement.textContent = `${emojiMap[computerChoice]}`;
+  Game.appendChild(humanChoiceElement);
+  Game.appendChild(computerChoiceElement);
+
+  if (!ended) { // 👈 solo loguea si la partida sigue
+    console.log("Human choice:", humanChoice);
+    console.log("Computer choice:", computerChoice);
+    console.log("Human score:", humanScore);
+    console.log("Computer score:", computerScore);
+  }
+});
+
 }
 
 
 
 playGame();
 
-console.clear();
-console.log("Final Scores:");
-console.log("Computer: ", computerScore);
-console.log("Human: ", humanScore);
 
-if (humanScore > computerScore) {
-  console.log("Human wins!");
-} else if (computerScore > humanScore) {
-  console.log("Computer wins");
-} else {
-  console.log("It's a Tie!");
-}
+
+
+  
