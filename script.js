@@ -1,3 +1,8 @@
+let rock = document.getElementById("rock");
+let paper = document.getElementById("paper");
+let scissors = document.getElementById("scissors");
+
+
 function getComputerChoice() {
   let computerChoice = Math.floor(Math.random() * 3);
 
@@ -19,26 +24,46 @@ function getComputerChoice() {
 
 
 function getHumanChoice() {
-  // let humanChoice = prompt("Rock, Paper or Scissors?");
+  let humanChoice = prompt("Rock, Paper or Scissors?");
 
-  // switch (humanChoice) {
-  //   case "rock":
-  //     return humanChoice;
-  //   case "paper":
-  //     return humanChoice;
-  //   case "scissors":
-  //     return humanChoice;
-  //   default:
-  //     let wrongChoice = getHumanChoice();
-  //     return wrongChoice;
-  // }
+  switch (humanChoice) {
+    case "rock":
+      return humanChoice;
+    case "paper":
+      return humanChoice;
+    case "scissors":
+      return humanChoice;
+    default:
+      let wrongChoice = getHumanChoice();
+      return wrongChoice;
+  }
+
+  
 
 }
 
+
+
 let humanScore = 0;
 let computerScore = 0;
+let computerChoice = ''
 
-function playGame() {
+rock.addEventListener("click", function() {
+  computerChoice = getComputerChoice();
+  playRound("rock");
+});
+paper.addEventListener("click", function() {
+    computerChoice = getComputerChoice();
+
+  playRound("paper");
+})
+scissors.addEventListener("click", function() {
+    computerChoice = getComputerChoice();
+
+  playRound("scissors"); 
+})
+
+
   function playRound(human, computer) {
     if (human == "rock" && computer == "paper") {
       computerScore++;
@@ -58,7 +83,7 @@ function playGame() {
     if (human == "scissors" && computer == "rock") {
       computerScore++;
     }
-  }
+  
 
   // for (let i = 0; i < 5; i++) {
   //   let computerChoice = getComputerChoice();
@@ -78,19 +103,9 @@ function playGame() {
   //   }
   // }
 }
-let rock = document.getElementById("rock");
-let paper = document.getElementById("paper");
-let scissors = document.getElementById("scissors");
 
-rock.addEventListener("click", function() {
-  playRound("rock");
-});
-paper.addEventListener("click", function() {
-  playRound("paper");
-})
-scissors.addEventListener("click", function() {
-  playRound("scissors"); 
-})
+
+
 playGame();
 
 console.clear();
